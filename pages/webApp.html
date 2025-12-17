@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Mimic Minesweeper</title>
+<style>
+:root{
+  --paper:#f6ecd2;
+  --paper-light:#fff8e6;
+  --tile:#d2b77c;
+  --tile-border:#9c8245;
+  --ink:#3b2a1a;
+  --blood:#7a1e1e;
+}
+
+*{box-sizing:border-box}
+
+body{
+  margin:0;
+  min-height:100vh;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  background:radial-gradient(circle at top,#fff7e1,var(--paper));
+  font-family:Georgia,serif;
+  color:var(--ink);
+}
+
+/* ===================== */
+/* THEMED NAVIGATION MENU */
+/* ===================== */
+.menu{
+  width:100%;
+  background:linear-gradient(#8b2a2a, var(--blood));
+  border-bottom:4px solid #4e0f0f;
+  box-shadow:0 6px 12px rgba(0,0,0,.35);
+  padding:10px 0;
+  text-align:center;
+}
+
+.menu h3{
+  margin:0;
+  font-weight:normal;
+  letter-spacing:.5px;
+}
+
+.menu a{
+  color:var(--paper-light);
+  text-decoration:none;
+  margin:0 12px;
+  font-size:1.1rem;
+}
+
+.menu a:hover{
+  color:#ffd27d;
+  text-decoration:underline;
+}
+
+/* ===================== */
+/* GAME CONTAINER */
+/* ===================== */
+#game{
+  margin-top:20px;
+  background:var(--paper);
+  border:6px solid var(--blood);
+  border-radius:18px;
+  padding:20px;
+  box-shadow:0 12px 30px rgba(0,0,0,.35);
+}
+
+h1{text-align:center;color:var(--blood);margin:0 0 12px}
+
+#top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  margin-bottom:14px
+}
+
+.panel{
+  background:var(--tile);
+  border:2px solid var(--blood);
+  border-radius:10px;
+  padding:6px 12px;
+  font-weight:bold
+}
+
+button{
+  background:var(--blood);
+  color:#fff;
+  border:none;
+  border-radius:10px;
+  padding:8px 16px;
+  font-weight:bold;
+  cursor:pointer
+}
+
+#board{
+  display:grid;
+  grid-template-columns:repeat(10,36px);
+  gap:4px;
+  justify-content:center
+}
+
+.cell{
+  width:36px;
+  height:36px;
+  border-radius:6px;
+  border:2px solid var(--tile-border);
+  background:linear-gradient(#e0c98f,#c5a667);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-weight:bold;
+  font-size:18px;
+  cursor:pointer;
+  user-select:none
+}
+
+.cell.revealed{
+  background:var(--paper-light);
+  cursor:default
+}
+
+.cell.flagged::after{
+  content:"⚑";
+  color:var(--blood);
+  font-size:20px
+}
+
+.cell.mimic{
+  background:#2a160d;
+  position:relative;
+}
+
+/* mimic visuals */
+.cell.mimic .chest{
+  position:absolute;
+  inset:6px;
+  background:#5a3a1e;
+  border-radius:4px;
+}
+
+.cell.mimic .lid{
+  position:absolute;
+  top:6px;
+  left:6px;
+  right:6px;
+  height:10px;
+  background:#7b4b24;
+  border-radius:4px 4px 2px 2px;
+}
+
+.cell.mimic .teeth{
+  position:absolute;
+  display:flex;
+  justify-content:space-between;
+}
+
+.cell.mimic .teeth.top{
+  top:16px;
+  left:8px;
+  right:8px;
+}
+
+.cell.mimic .teeth.bottom{
+  bottom:6px;
+  left:8px;
+  right:8px;
+}
+
+.cell.mimic .tooth{
+  width:4px;
+  height:6px;
+  background:#f5f5f5;
+  clip-path:polygon(50% 100%,0% 0%,100% 0%);
+}
+
+.cell.mimic .eyes{
+  position:absolute;
+  top:10px;
+  left:50%;
+  transform:translateX(-50%);
+  display:flex;
+  gap:6px;
+}
+
+.cell.mimic .eye{
+  width:6px;
+  height:6px;
+  border-radius:50%;
+  background:yellow;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.cell.mimic .eye::after{
+  content:"";
+  width:2px;
+  height:2px;
+  background:black;
+  border-radius:50%;
+}
+
+/* leaderboard */
+#leaderboard{margin-top:14px}
+#leaderboard h2{color:var(--blood);margin:6px 0}
+#leaderboard ol{margin:0;padding-left:20px}
+
+/* modal */
+#modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.6);
+  align-items:center;
+  justify-content:center;
+  z-index:10
+}
+
+#modalBox{
+  background:var(--paper);
+  border:4px solid var(--blood);
+  border-radius:14px;
+  padding:20px;
+  text-align:center;
+  max-width:300px
+}
+
+#modalBox h2{
+  color:var(--blood);
+  margin-top:0
+}
+</style>
+</head>
+
+<body>
+
+    <!-- Navigation Menu -->
+    <div class="menu">
+    <h3>
+        <a href="../index.html">Resume</a> |
+        <a href="#">Minesweeper</a> |
+        <a href="scratch.html">Dice Making</a>
+    </h3>
+    </div>
+
+    <div id="game">
+    <h1>Mimic Minesweeper</h1>
+    <div id="top">
+        <div class="panel">Mimics Left: <span id="mineCount"></span></div>
+        <div class="panel">Time: <span id="time">0</span>s</div>
+        <button id="reset">New Quest</button>
+    </div>
+    <div id="board"></div>
+    <div id="leaderboard">
+        <h2>Hall of Heroes</h2>
+        <ol id="scores"></ol>
+    </div>
+    </div>
+
+    <div id="modal">
+    <div id="modalBox">
+        <h2 id="modalTitle"></h2>
+        <p id="modalText"></p>
+        <button onclick="closeModal()">Continue</button>
+    </div>
+    </div>
+
+    <script>
+        const SIZE=10, MINES=15;
+        let board=[],revealed=0,flags=0,started=false,over=false;
+        let time=0,timer=null;
+
+        const boardEl=document.getElementById('board');
+        const mineCountEl=document.getElementById('mineCount');
+        const timeEl=document.getElementById('time');
+        const scoresEl=document.getElementById('scores');
+
+        function startTimer(){if(timer) return;timer=setInterval(()=>{time++;timeEl.textContent=time},1000)}
+        function stopTimer(){clearInterval(timer);timer=null}
+
+        function resetGame(){
+            board=[];revealed=0;flags=0;started=false;over=false;time=0;
+            stopTimer();timeEl.textContent=0;mineCountEl.textContent=MINES;
+            boardEl.innerHTML='';
+            for(let y=0;y<SIZE;y++){
+                board[y]=[];
+                for(let x=0;x<SIZE;x++){
+                    board[y][x]={mine:false,count:0,revealed:false,flag:false};
+                    const c=document.createElement('div');c.className='cell';
+                    c.oncontextmenu=e=>{e.preventDefault();toggleFlag(x,y,c)};
+                    c.onclick=()=>clickCell(x,y,c);
+                    boardEl.appendChild(c);
+                }
+            }
+        }
+
+        function placeMines(sx,sy){
+            let placed=0;
+            while(placed<MINES){
+                const x=Math.floor(Math.random()*SIZE);
+                const y=Math.floor(Math.random()*SIZE);
+                if(board[y][x].mine) continue;
+                if(Math.abs(x-sx)<=1 && Math.abs(y-sy)<=1) continue;
+                board[y][x].mine=true;placed++;
+            }
+            for(let y=0;y<SIZE;y++)for(let x=0;x<SIZE;x++){
+                if(board[y][x].mine) continue;
+                let c=0;
+                for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+                const ny=y+dy,nx=x+dx;
+                if(ny>=0&&ny<SIZE&&nx>=0&&nx<SIZE&&board[ny][nx].mine) c++;
+                }
+                board[y][x].count=c;
+            }
+        }
+
+        function toggleFlag(x,y,el){
+            if(over||board[y][x].revealed) return;
+            board[y][x].flag=!board[y][x].flag;
+            el.classList.toggle('flagged');
+            flags+=board[y][x].flag?1:-1;
+            mineCountEl.textContent=MINES-flags;
+        }
+
+        function clickCell(x,y,el){
+            if(over||board[y][x].flag) return;
+            if(!started){placeMines(x,y);started=true;startTimer()}
+            reveal(x,y,el);
+        }
+
+        function reveal(x,y,el){
+            const cell=board[y][x];
+            if(cell.revealed) return;
+            cell.revealed=true;el.classList.add('revealed');
+            if(cell.mine){
+                el.classList.add('mimic');
+                el.innerHTML = `
+                <div class='eyes'>
+                    <div class='eye'></div>
+                    <div class='eye'></div>
+                </div>
+                <div class='chest'></div>
+                <div class='lid'></div>
+                <div class='teeth top'>
+                    <span class='tooth'></span><span class='tooth'></span><span class='tooth'></span><span class='tooth'></span>
+                </div>
+                <div class='teeth bottom'>
+                    <span class='tooth'></span><span class='tooth'></span><span class='tooth'></span><span class='tooth'></span>
+                </div>
+                `;
+                end(false);
+                return;
+            }
+            revealed++;
+            if(cell.count>0){el.textContent=cell.count;el.onclick=()=>chord(x,y)}
+            else flood(x,y);
+            if(revealed===SIZE*SIZE-MINES) end(true);
+        }
+
+        function flood(x,y){
+            for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+                const nx=x+dx,ny=y+dy;
+                if(nx<0||nx>=SIZE||ny<0||ny>=SIZE) continue;
+                const i=ny*SIZE+nx;
+                if(!board[ny][nx].revealed && !board[ny][nx].flag)
+                reveal(nx,ny,boardEl.children[i]);
+            }
+        }
+
+        function chord(x,y){
+            const cell=board[y][x];let c=0;
+            for(let dy=-1;dy<=1;dy++)for(let dx=-1;dx<=1;dx++){
+                const nx=x+dx,ny=y+dy;
+                if(nx>=0&&nx<SIZE&&ny>=0&&ny<SIZE&&board[ny][nx].flag) c++;
+            }
+            if(c===cell.count) flood(x,y);
+        }
+
+        function end(win){
+            if(over) return;over=true;stopTimer();
+            if(win){saveScore(time);showModal('Victory!',`Cleared in ${time} seconds.`)}
+            else{revealMines();showModal('Defeat!','A mimic devours you.')}
+        }
+
+        function revealMines(){
+            for(let y=0;y<SIZE;y++)for(let x=0;x<SIZE;x++)if(board[y][x].mine){
+                const el=boardEl.children[y*SIZE+x];
+                el.classList.add('revealed','mimic');
+                el.innerHTML = `
+                <div class='eyes'>
+                    <div class='eye'></div>
+                    <div class='eye'></div>
+                </div>
+                <div class='chest'></div>
+                <div class='lid'></div>
+                <div class='teeth'>
+                    <span class='tooth'></span><span class='tooth'></span><span class='tooth'></span><span class='tooth'></span>
+                </div>
+                `;
+            }
+        }
+
+        function showModal(t,m){
+            document.getElementById('modalTitle').textContent=t;
+            document.getElementById('modalText').textContent=m;
+            document.getElementById('modal').style.display='flex'
+        }
+        function closeModal(){document.getElementById('modal').style.display='none'}
+
+        function saveScore(t){
+            const s=JSON.parse(localStorage.getItem('scores')||'[]');
+            s.push(t);s.sort((a,b)=>a-b);
+            localStorage.setItem('scores',JSON.stringify(s.slice(0,5)));renderScores();
+        }
+        function renderScores(){
+            scoresEl.innerHTML='';
+            const s=JSON.parse(localStorage.getItem('scores')||'[]');
+            s.forEach(v=>{const li=document.createElement('li');li.textContent=v+' seconds';scoresEl.appendChild(li)})
+        }
+
+        resetGame();renderScores();
+        document.getElementById('reset').onclick=resetGame;
+    </script>
+</body>
+</html>

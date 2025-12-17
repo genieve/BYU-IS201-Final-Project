@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="../styles/scratchStyle.css">
+</head>
+<body>
+    <!--HEADER/MENU-->
+    <div class="menu">
+        <h3><a href="../index.html">Resume</a> | 
+        <a href="webApp.html">Minesweeper</a> | 
+        <a href="#">Dice Making</a></h3>
+
+    </div>
+    <!--TITLE-->
+    <div class="bodyText absolute">
+        <H1 id="top">A simple guide on how to make D&D dice</H1>
+        <p>I've been making resin D&D dice for about 4 years now, going on 5 next summer. Over that time I've learned some tips and tricks on making the process easier.</p>
+        <p>One of the big things to note while working with resin is to make sure you're taking proper precautions with PPE- Personal Protection Equipment. Resin is toxic, and prolonged exposure can lead to health problems.</p>
+
+        <!--HOW-TO MATERIALS-->
+        <br id="materials">
+        <h2>
+            Materials
+        </h2>
+        <ul>
+            <li class="bold listTitle">Below is a list of BASIC materials to make resin dice:
+                <ol class="listContent">
+                    <li>Dice Mold</li>
+                    <li>Craft Resin</li>
+                    <li>Alcohol Ink</li>
+                    <li>Acrylic Paint (To paint in the numbers)</li>
+                    <li>Something to protect your work environment</li>
+                </ol>
+            </li>
+            <li class="bold listTitle">The following are the MINIMUM items of PPE that you'll need:
+                <ol class="listContent">
+                    <li>Respirator (Specifically a Natural Vapors respirator)</li>
+                    <li>Gloves</li>
+                    <li>Well-Ventilated Work Environment</li>
+                </ol>
+            </li>
+            <li class="bold listTitle"> The last items are tools to take your dice to the next level:
+                <ol class="listContent">
+                    <li>Pressure Pot (To remove bubbles in the resin while curing)</li>
+                    <li>Compressor (For the pressure pot)</li>
+                    <li>Glitter</li>
+                    <li>Polishing Papers (I use Zona polishing papers, after the dice are cured this makes them shine like glass)</li>
+                    <li>Mini Pottery Wheel (To make polishing easier)</li>
+                    <li>More Alochol Inks (To color your dice more colors)</li>
+                    <li>Heat Gun (To avoid bubbles in the dice)</li>
+                    <li>Restraint (Because this rabbit hole goes down forever)</li>
+                </ol>
+            </li>
+        </ul>
+
+        <!--TiPS AND TRICKS-->
+        <h2 id="tips">Tips & Tricks</h2>
+        <p>The easiest way to give you some tips and tricks is to show you this video, this one video that I used when I started out!</p>
+        <iframe width="1000" height="600" src="https://www.youtube.com/watch?v=tN_Hb0JbP9s"></iframe>
+        <br>
+
+        <!--GALLERY OF IMAGES-->
+        <h2 id="gallery">The Gallery</h2>
+
+        <p>The following are a collection of pictures of dice that I made!</p>
+        <!-- I FOUND THIS CODE MYSELF, NO AI WAS USED ON THE SCRATCH PAGE!!-->
+        <!-- Slideshow container -->
+        <div class="slideshow-container">
+
+            <!-- Full-width images with number and caption text -->
+            <div class="mySlides fade">
+                <div class="numbertext">1 / 9</div>
+                <img src="../images/amiyaDice.jpg" alt="a clear and red set of dice with silver flakes" style="width:100%">
+            </div>
+
+            <div class="mySlides fade">
+                <div class="numbertext">2 / 9</div>
+                <img src="../images/aquaCellophaneDice.jpg" alt="an aquamarine set of dice with cellophane inside" style="width:100%">
+            </div>
+
+            <div class="mySlides fade">
+                <div class="numbertext">3 / 9</div>
+                <img src="../images/craggletoothYellowDice.jpg" alt="a transparent green set of dice with yellow dye tendrisl" style="width:100%">
+            </div>
+            <div class="mySlides fade">
+                <div class="numbertext">4 / 9</div>
+                <img src="../images/galaxyDice.jpg" alt="a purple and brown swirled dice, with hints of cellophane inside" style="width:100%">
+            </div>
+                        <div class="mySlides fade">
+                <div class="numbertext">5 / 9</div>
+                <img src="../images/heraldDice.jpg" alt="a pink set of dice with dark red dye around the edges" style="width:100%">
+            </div>
+                        <div class="mySlides fade">
+                <div class="numbertext">6 / 9</div>
+                <img src="../images/heraldDiceMarkOne.jpg" alt="a peach mica powder set of dice with an orange-red swirl" style="width:100%">
+            </div>
+                        <div class="mySlides fade">
+                <div class="numbertext">7 / 9</div>
+                <img src="../images/peachOutlinedDice.jpg" alt="a peach set of dice that have silver outlines on each edge" style="width:100%">
+            </div>
+                        <div class="mySlides fade">
+                <div class="numbertext">8 / 9</div>
+                <img src="../images/petriOceanDice.jpg" alt="a blue and grey set of dice with white and black tendrils running through it" style="width:100%">
+            </div>
+                        <div class="mySlides fade">
+                <div class="numbertext">9 / 9</div>
+                <img src="../images/varsataDice.jpg" alt="a purple and teal swirled set of dice with written text tape covering half the faces" style="width:100%">
+            </div>
+
+            <!-- Next and previous buttons -->
+            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+            </div>
+            <br>
+
+            <!-- The dots/circles -->
+            <div style="text-align:center">
+            <span class="dot" onclick="currentSlide(1)"></span>
+            <span class="dot" onclick="currentSlide(2)"></span>
+            <span class="dot" onclick="currentSlide(3)"></span>
+        </div> 
+        <script>
+            let slideIndex = 1;
+            showSlides(slideIndex);
+
+            function plusSlides(n) {
+                showSlides(slideIndex += n);
+            }
+
+            function currentSlide(n) {
+                showSlides(slideIndex = n);
+            }
+
+            function showSlides(n) {
+                let i;
+                let slides = document.getElementsByClassName("mySlides");
+                let dots = document.getElementsByClassName("dot");
+                if (n > slides.length) {slideIndex = 1}
+                if (n < 1) {slideIndex = slides.length}
+                for (i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                for (i = 0; i < dots.length; i++) {
+                    dots[i].className = dots[i].className.replace(" active", "");
+                }
+                slides[slideIndex-1].style.display = "block";
+                dots[slideIndex-1].className += " active";
+            }
+        </script>
+
+        <!--TABLEAU INSERT-->
+        <!--NOTE: 
+            - I went through and made it easier to read with paragraph breaks and proper indentation
+            - THIS HAS A BUNCH OF ERRORS IN THE COMPILER DUE TO BEING A TABLEAU INSERT!!
+        -->
+        <h2 id="tableau">Tableau Graph</h2>
+        <div class='tableauPlaceholder' id='viz1766004121379' style='position: relative'>
+            <noscript>
+                <a href='#'><img alt=' ' src='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;DD&#47;DDDPSDashboard&#47;DDDPSDashboard&#47;1_rss.png' style='border: none' /></a>
+            </noscript>
+            <object class='tableauViz'  style='display:none;'><param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' /> 
+                <param name='embed_code_version' value='3' /> <param name='site_root' value='' /><param name='name' value='DDDPSDashboard&#47;DDDPSDashboard' />
+                <param name='tabs' value='yes' /><param name='toolbar' value='yes' />
+                <param name='static_image' value='https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;DD&#47;DDDPSDashboard&#47;DDDPSDashboard&#47;1.png' /> 
+                <param name='animate_transition' value='yes' />
+                <param name='display_static_image' value='yes' /><param name='display_spinner' value='yes' />
+                <param name='display_overlay' value='yes' />
+                <param name='display_count' value='yes' />
+                <param name='language' value='en-US' />
+            </object>
+        </div>                
+        <script type='text/javascript'>                    
+            var divElement = document.getElementById('viz1766004121379');                    
+            var vizElement = divElement.getElementsByTagName('object')[0];                    
+            if ( divElement.offsetWidth > 800 ) { 
+                vizElement.style.minWidth='1200px';
+                vizElement.style.maxWidth='100%';
+                vizElement.style.minHeight='1250px';
+                vizElement.style.maxHeight=(divElement.offsetWidth*0.75)+'px';
+            } else if ( divElement.offsetWidth > 500 ) { 
+                vizElement.style.minWidth='1200px';
+                vizElement.style.maxWidth='100%';
+                vizElement.style.minHeight='1250px';
+                vizElement.style.maxHeight=(divElement.offsetWidth*0.75)+'px';
+            } else { 
+                    vizElement.style.width='100%';
+                    vizElement.style.minHeight='1800px';
+                    vizElement.style.maxHeight=(divElement.offsetWidth*1.77)+'px';
+            }                     
+            var scriptElement = document.createElement('script');                    
+            scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';                    
+            vizElement.parentNode.insertBefore(scriptElement, vizElement);                
+        </script>
+    </div>
+    <!--LEFT MENU-->
+    <div class="leftMenu absolute">
+    </div>
+    <!--RIGHT MENU-->
+    <div class="rightMenu listTitle">
+        <ul>
+            <li><a href="#top">Intro</a></li>
+            <li><a href="#materials">Materials</a></li>
+            <li><a href="#tips">Tips & Tricks</a></li>
+            <li><a href="#gallery">Gallery</a></li>
+            <li><a href="#tableau">D&D Damage Graph</a></li>
+        </ul>
+    </div>
+    <div>
+
+    </div>
+
+
+</body>
+</html>
