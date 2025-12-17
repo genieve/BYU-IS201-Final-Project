@@ -9,6 +9,7 @@ body {
 .bold{ font-weight: bold; }
 .italics { font-style: italic; }
 .absolute { position: absolute; }
+a { color: #7a1e1e; }
 
 /*HTML specific one-liners*/
 
@@ -19,7 +20,7 @@ body {
 .listTitle { color: #7a1e1e; }
 .listTitle a:visited { color: #A14646; }
 .listTitle a:hover { color: #5c1414; }
-.listTitle a { color: #7a1e1e; }
+
 
 /*CUSTOM CLASSES*/
 
